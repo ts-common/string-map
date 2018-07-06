@@ -1,6 +1,6 @@
 {
   "name": "@ts-common/string-map",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -33,6 +33,6 @@
     "typescript": "^2.9.2"
   },
   "dependencies": {
-    "@ts-common/iterator": "0.0.20"
+    "@ts-common/iterator": "0.0.21"
   }
 }

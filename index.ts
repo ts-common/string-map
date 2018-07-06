@@ -4,10 +4,24 @@ export interface StringMap<T> {
     readonly [key: string]: T;
 }
 
-export type Entry<T> = Readonly<[string, T]>
+export const enum EntryIndex {
+    Name = 0,
+    Value = 1,
+}
+
+export interface Entry<T> {
+    readonly [EntryIndex.Name]: string
+    readonly [EntryIndex.Value]: T
+    /**
+     * The property is required for destruction.
+     */
+    /* tslint:disable-next-line:no-mixed-interface */
+    readonly [Symbol.iterator]: () => IterableIterator<string|T>
+}
 
 export function entries<T>(input: StringMap<T|undefined>): Iterable<Entry<T>> {
     function *iterator() {
+        /* tslint:disable-next-line:no-loop-statement */
         for (const name in input) {
             const value = input[name]
             /* tslint:disable-next-line:no-if-statement */
@@ -31,11 +45,6 @@ export function entry<T>(name: string, value: T): Entry<T> {
     return [name, value]
 }
 
-export const enum EntryIndex {
-    Name = 0,
-    Value = 1,
-}
-
 export function entryName<T>(e: Entry<T>): string {
     return e[EntryIndex.Name]
 }
@@ -47,16 +56,14 @@ export function entryValue<T>(e: Entry<T>): T {
 export function groupBy<T>(input: Iterable<Entry<T>>, reduceFunc: (a: T, b: T) => T): StringMap<T> {
     /* tslint:disable-next-line:readonly-keyword */
     const result: { [key: string]: T } = {}
-    for (const nv of input) {
-        const n = entryName(nv)
-        const v = entryValue(nv)
-        const prior = result[n]
+    i.forEach(input, ([name, value]) => {
+        const prior = result[name]
         /* tslint:disable-next-line:no-object-mutation no-expression-statement */
-        result[n] = prior === undefined ? v : reduceFunc(prior, v)
-    }
+        result[name] = prior === undefined ? value : reduceFunc(prior, value)
+    })
     return result
 }
 
 export function stringMap<T>(input: Iterable<Entry<T>>): StringMap<T> {
-    return groupBy(input, a => a)
+    return groupBy(input, v => v)
 }
