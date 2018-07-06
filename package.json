@@ -1,12 +1,16 @@
 {
   "name": "@ts-common/string-map",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
     "tsc": "tsc",
-    "test": "tsc && nyc mocha"
+    "test": "tsc && nyc mocha",
+    "prepack": "npm install && tsc"
   },
+  "files": [
+    "index.d.ts"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ts-common/string-map.git"
