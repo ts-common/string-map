@@ -1,1 +1,1 @@
-# string-map
+# String Map
