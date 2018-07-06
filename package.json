@@ -1,9 +1,10 @@
 {
   "name": "@ts-common/string-map",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "",
   "main": "index.js",
   "scripts": {
+    "tslint": "tslint --project tsconfig.json",
     "tsc": "tsc",
     "test": "tsc && nyc mocha",
     "prepack": "npm install && tsc"
@@ -28,9 +29,10 @@
     "mocha": "^5.2.0",
     "nyc": "^12.0.2",
     "tslint": "^5.10.0",
+    "tslint-immutable": "^4.6.0",
     "typescript": "^2.9.2"
   },
   "dependencies": {
-    "@ts-common/iterator": "0.0.19"
+    "@ts-common/iterator": "0.0.20"
   }
 }

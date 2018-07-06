@@ -10,6 +10,7 @@ export function entries<T>(input: StringMap<T|undefined>): Iterable<Entry<T>> {
     function *iterator() {
         for (const name in input) {
             const value = input[name]
+            /* tslint:disable-next-line:no-if-statement */
             if (value !== undefined) {
                 yield entry(name, value)
             }
@@ -35,29 +36,27 @@ export const enum EntryIndex {
     Value = 1,
 }
 
-export function entryName<T>(entry: Entry<T>): string {
-    return entry[EntryIndex.Name]
+export function entryName<T>(e: Entry<T>): string {
+    return e[EntryIndex.Name]
 }
 
-export function entryValue<T>(entry: Entry<T>): T {
-    return entry[EntryIndex.Value]
+export function entryValue<T>(e: Entry<T>): T {
+    return e[EntryIndex.Value]
 }
 
 export function groupBy<T>(input: Iterable<Entry<T>>, reduceFunc: (a: T, b: T) => T): StringMap<T> {
+    /* tslint:disable-next-line:readonly-keyword */
     const result: { [key: string]: T } = {}
     for (const nv of input) {
         const n = entryName(nv)
         const v = entryValue(nv)
         const prior = result[n]
+        /* tslint:disable-next-line:no-object-mutation no-expression-statement */
         result[n] = prior === undefined ? v : reduceFunc(prior, v)
     }
     return result
 }
 
 export function stringMap<T>(input: Iterable<Entry<T>>): StringMap<T> {
-    const result: { [name: string]: T } = {}
-    for (const nv of input) {
-        result[entryName(nv)] = entryValue(nv)
-    }
-    return result
+    return groupBy(input, a => a)
 }

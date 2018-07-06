@@ -1,3 +1,4 @@
+/* tslint:disable:no-expression-statement readonly-keyword */
 import * as _ from "../index"
 import * as i from "@ts-common/iterator"
 import "mocha"
@@ -18,7 +19,7 @@ describe("values", () => {
     })
     it("array with undefined", () => {
         const x: { [name: string]: number|undefined } = { 1: 2, 2: 4, t: undefined }
-        const result: number[] = Array.from(_.values(x))
+        const result: ReadonlyArray<number> = Array.from(_.values(x))
         assert.deepEqual([2, 4], result)
     })
 })
