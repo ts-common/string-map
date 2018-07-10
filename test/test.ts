@@ -31,6 +31,15 @@ describe("names", () => {
     })
 })
 
+describe("entry", () => {
+    it("destruction", () => {
+        const r: _.Entry<number> = ["aaa", 54]
+        const [a, b] = r
+        assert.equal("aaa", a)
+        assert.equal(54, b)
+    })
+})
+
 describe("entries", () => {
     it("array", () => {
         const x: { [name: string]: number } = { 1: 2, 2: 2, 3: 3 }
