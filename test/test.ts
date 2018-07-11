@@ -26,7 +26,7 @@ describe("values", () => {
 
 describe("names", () => {
     it("array", () => {
-        const result = Array.from(_.names({ 1: 2, 2: 2, 3: 3, 4: undefined }))
+        const result = Array.from(_.keys({ 1: 2, 2: 2, 3: 3, 4: undefined }))
         assert.deepEqual(["1", "2", "3"], result)
     })
 })

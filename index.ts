@@ -1,7 +1,6 @@
 import * as _ from "@ts-common/iterator"
 
-export interface Tuple0 extends ReadonlyArray<never> {
-}
+export type Tuple0 = ReadonlyArray<never>
 
 export const tuple0: Tuple0 = []
 
@@ -18,56 +17,61 @@ export interface Tuple2<T0, T1> extends ReadonlyArray<T0 | T1> {
 
 export function tuple2<T0, T1>(v0: T0, v1: T1): Tuple2<T0, T1> { return [v0, v1] }
 
-export interface StringMap<T> {
-    readonly [key: string]: T;
-}
-
 export const enum EntryIndex {
-    Name = 0,
+    Key = 0,
     Value = 1,
 }
 
 export type Entry<T> = Tuple2<string, T>
 
-export function entries<T>(input: StringMap<T|undefined>): Iterable<Entry<T>> {
-    function *iterator() {
-        /* tslint:disable-next-line:no-loop-statement */
-        for (const name in input) {
-            const value = input[name]
-            /* tslint:disable-next-line:no-if-statement */
-            if (value !== undefined) {
-                yield entry(name, value)
-            }
-        }
-    }
-    return _.iterable(iterator)
-}
+export const entry: <T>(key: string, value: T) => Entry<T> = tuple2
 
-export function names<T>(input: StringMap<T>): Iterable<string> {
-    return _.map(entries(input), entryName)
-}
-
-export function values<T>(input: StringMap<T|undefined>): Iterable<T> {
-    return _.map(entries(input), entryValue)
-}
-
-export const entry: <T>(name: string, value: T) => Entry<T> = tuple2
-
-export function entryName<T>(e: Entry<T>): string {
-    return e[EntryIndex.Name]
+export function entryKey<T>(e: Entry<T>): string {
+    return e[EntryIndex.Key]
 }
 
 export function entryValue<T>(e: Entry<T>): T {
     return e[EntryIndex.Value]
 }
 
+export interface StringMap<T> {
+    readonly [key: string]: T;
+}
+
+export function allKeys<T>(input: StringMap<T|undefined>): Iterable<string> {
+    function *iterator() {
+        /* tslint:disable-next-line:no-loop-statement */
+        for (const key in input) {
+            yield key
+        }
+    }
+    return _.iterable(iterator)
+}
+
+export function entries<T>(input: StringMap<T|undefined>): Iterable<Entry<T>> {
+    return _.filterMap(
+        allKeys(input),
+        key => {
+            const value = input[key]
+            return value !== undefined ? entry(key, value) : undefined
+        })
+}
+
+export function keys<T>(input: StringMap<T>): Iterable<string> {
+    return _.map(entries(input), entryKey)
+}
+
+export function values<T>(input: StringMap<T|undefined>): Iterable<T> {
+    return _.map(entries(input), entryValue)
+}
+
 export function groupBy<T>(input: Iterable<Entry<T>>, reduceFunc: (a: T, b: T) => T): StringMap<T> {
     /* tslint:disable-next-line:readonly-keyword */
     const result: { [key: string]: T } = {}
-    _.forEach(input, ([name, value]) => {
-        const prior = result[name]
+    _.forEach(input, ([key, value]) => {
+        const prior = result[key]
         /* tslint:disable-next-line:no-object-mutation no-expression-statement */
-        result[name] = prior === undefined ? value : reduceFunc(prior, value)
+        result[key] = prior === undefined ? value : reduceFunc(prior, value)
     })
     return result
 }
