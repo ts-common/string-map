@@ -22,6 +22,8 @@ export interface StringMap<T> {
     readonly [key: string]: T;
 }
 
+export type StringMapItem<T> = T extends StringMap<infer I> ? I : never
+
 export function allKeys<T>(input: StringMap<T|undefined>): Iterable<string> {
     function *iterator() {
         /* tslint:disable-next-line:no-loop-statement */
