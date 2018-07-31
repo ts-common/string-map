@@ -22,6 +22,11 @@ export interface StringMap<T> {
     readonly [key: string]: T;
 }
 
+export interface MutableStringMap<T> {
+    // tslint:disable-next-line:readonly-keyword
+    [key: string]: T
+}
+
 export type StringMapItem<T> = T extends StringMap<infer I> ? I : never
 
 export function allKeys<T>(input: StringMap<T|undefined>): Iterable<string> {
@@ -53,7 +58,7 @@ export function values<T>(input: StringMap<T|undefined>): Iterable<T> {
 
 export function groupBy<T>(input: Iterable<Entry<T>>, reduceFunc: (a: T, b: T) => T): StringMap<T> {
     /* tslint:disable-next-line:readonly-keyword */
-    const result: { [key: string]: T } = {}
+    const result: MutableStringMap<T> = {}
     _.forEach(input, ([key, value]) => {
         const prior = result[key]
         /* tslint:disable-next-line:no-object-mutation no-expression-statement */
