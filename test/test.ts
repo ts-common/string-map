@@ -58,4 +58,16 @@ describe("stringMap", () => {
         const result = _.stringMap([["a", 2], ["b", 4]])
         assert.deepEqual({ a: 2, b: 4 }, result)
     })
+    it("stringMap duplicate", () => {
+        const result = _.stringMap([["a", 2], ["b", 4], ["a", 3]])
+        assert.deepEqual({ a: 2, b: 4 }, result)
+    })
+})
+
+describe("map", () => {
+    it("map", () => {
+        const x = { a: 3, b: 4 }
+        const result = _.map(x, a => [a[0], a[1] * a[1]])
+        assert.deepEqual({ a: 9, b: 16 }, result)
+    })
 })

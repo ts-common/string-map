@@ -70,3 +70,6 @@ export function groupBy<T>(input: Iterable<Entry<T>>, reduceFunc: (a: T, b: T) =
 export function stringMap<T>(input: Iterable<Entry<T>>): StringMap<T> {
     return groupBy(input, v => v)
 }
+
+export const map = <S, R>(source: StringMap<S>, f: (s: Entry<S>) => Entry<R>): StringMap<R> =>
+    stringMap(_.map(entries(source), f))
