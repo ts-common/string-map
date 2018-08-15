@@ -70,10 +70,13 @@ export const map = <S, R>(source: StringMap<S>, f: (s: Entry<S>) => Entry<R>): S
     stringMap(_.map(entries(source), f))
 
 // TypeScript gives an error in case if type of a and type of b are different
-const strictEquals = (a: unknown, b: unknown) => a === b
+const isStrictEqual = (a: unknown, b: unknown) => a === b
 
-const isSubset = <A, B>(set: StringMap<A>, subset: StringMap<B>): boolean =>
-    _.every(entries(subset), ([key, value]) => strictEquals(set[key], value))
+// Performs a partial deep comparison between object and source to determine if object contains
+// equivalent property values.
+// See also https://lodash.com/docs/4.17.10#isMatch
+export const isMatch = <O, S>(object: StringMap<O>, source: StringMap<S>): boolean =>
+    _.every(entries(source), ([key, value]) => isStrictEqual(object[key], value))
 
-export const equals = <A, B>(a: StringMap<A>, b: StringMap<B>): boolean =>
-    strictEquals(a, b) || (isSubset(a, b) && isSubset(b, a))
+export const isEqual = <A, B>(a: StringMap<A>, b: StringMap<B>): boolean =>
+    isStrictEqual(a, b) || (isMatch(a, b) && isMatch(b, a))

@@ -74,12 +74,12 @@ describe("map", () => {
 
 describe("equals", () => {
     it("equal", () => {
-        assert.isTrue(_.equals({ a: 3, b: 4 }, { a: 3, b: 4 }))
-        assert.isTrue(_.equals({}, {}))
+        assert.isTrue(_.isEqual({ a: 3, b: 4 }, { a: 3, b: 4 }))
+        assert.isTrue(_.isEqual({}, {}))
     })
     it("not equal", () => {
-        assert.isFalse(_.equals({ a: 3, b: 4 }, { a: 3, b: "3" }))
-        assert.isFalse(_.equals({ a: 3, b: 4 }, { a: 3 }))
-        assert.isFalse(_.equals({}, { a: 3 }))
+        assert.isFalse(_.isEqual({ a: 3, b: 4 }, { a: 3, b: "3" }))
+        assert.isFalse(_.isEqual({ a: 3, b: 4 }, { a: 3 }))
+        assert.isFalse(_.isEqual({}, { a: 3 }))
     })
 })
