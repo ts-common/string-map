@@ -69,8 +69,11 @@ export const stringMap = <T>(input: Iterable<Entry<T>>): StringMap<T> =>
 export const map = <S, R>(source: StringMap<S>, f: (s: Entry<S>) => Entry<R>): StringMap<R> =>
     stringMap(_.map(entries(source), f))
 
+// TypeScript gives an error in case if type of a and type of b are different
+const strictEquals = (a: unknown, b: unknown) => a === b
+
 const isSubset = <A, B>(set: StringMap<A>, subset: StringMap<B>): boolean =>
-    _.every(entries(subset), ([key, value]) => set[key] === value as any)
+    _.every(entries(subset), ([key, value]) => strictEquals(set[key], value))
 
 export const equals = <A, B>(a: StringMap<A>, b: StringMap<B>): boolean =>
-    isSubset(a, b) && isSubset(b, a)
+    strictEquals(a, b) || (isSubset(a, b) && isSubset(b, a))
