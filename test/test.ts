@@ -72,7 +72,7 @@ describe("map", () => {
     })
 })
 
-describe("equals", () => {
+describe("isEqual", () => {
     it("equal", () => {
         assert.isTrue(_.isEqual({ a: 3, b: 4 }, { a: 3, b: 4 }))
         assert.isTrue(_.isEqual({}, {}))

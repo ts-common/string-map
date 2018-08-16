@@ -20,6 +20,10 @@ export interface StringMap<T> {
     readonly [key: string]: T;
 }
 
+export type PartialStringMap<K extends string, V> = {
+    readonly [k in K]: V
+}
+
 export interface MutableStringMap<T> {
     // tslint:disable-next-line:readonly-keyword
     [key: string]: T
@@ -52,7 +56,10 @@ export const keys = <T>(input: StringMap<T>): Iterable<string> =>
 export const values = <T>(input: StringMap<T|undefined>): Iterable<T> =>
     _.map(entries(input), entryValue)
 
-export const groupBy = <T>(input: Iterable<Entry<T>>, reduceFunc: (a: T, b: T) => T): StringMap<T> => {
+export const groupBy = <T>(
+    input: Iterable<Entry<T>>,
+    reduceFunc: (a: T, b: T) => T
+): StringMap<T> => {
     /* tslint:disable-next-line:readonly-keyword */
     const result: MutableStringMap<T> = {}
     _.forEach(input, ([key, value]) => {
@@ -69,14 +76,11 @@ export const stringMap = <T>(input: Iterable<Entry<T>>): StringMap<T> =>
 export const map = <S, R>(source: StringMap<S>, f: (s: Entry<S>) => Entry<R>): StringMap<R> =>
     stringMap(_.map(entries(source), f))
 
-// TypeScript gives an error in case if type of a and type of b are different
-const isStrictEqual = (a: unknown, b: unknown) => a === b
-
 // Performs a partial deep comparison between object and source to determine if object contains
 // equivalent property values.
 // See also https://lodash.com/docs/4.17.10#isMatch
 export const isMatch = <O, S>(object: StringMap<O>, source: StringMap<S>): boolean =>
-    _.every(entries(source), ([key, value]) => isStrictEqual(object[key], value))
+    _.every(entries(source), ([key, value]) => _.isStrictEqual(object[key], value))
 
 export const isEqual = <A, B>(a: StringMap<A>, b: StringMap<B>): boolean =>
-    isStrictEqual(a, b) || (isMatch(a, b) && isMatch(b, a))
+    _.isStrictEqual(a, b) || (isMatch(a, b) && isMatch(b, a))
