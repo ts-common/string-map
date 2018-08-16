@@ -31,8 +31,12 @@ export interface MutableStringMap<T> {
 
 export type StringMapItem<T> = T extends StringMap<infer I> ? I : never
 
-export const allKeys = <T>(input: StringMap<T>): Iterable<string> => {
+export const allKeys = <T>(input: StringMap<T>|undefined): Iterable<string> => {
     function *iterator() {
+        // tslint:disable-next-line:no-if-statement
+        if (input === undefined) {
+            return
+        }
         /* tslint:disable-next-line:no-loop-statement */
         for (const key in input) {
             yield key
@@ -41,7 +45,11 @@ export const allKeys = <T>(input: StringMap<T>): Iterable<string> => {
     return _.iterable(iterator)
 }
 
-export const entries = <T>(input: StringMap<T>): Iterable<Entry<T>> => {
+export const entries = <T>(input: StringMap<T>|undefined): Iterable<Entry<T>> => {
+    // tslint:disable-next-line:no-if-statement
+    if (input === undefined) {
+        return []
+    }
     return _.filterMap(
         allKeys(input),
         key => {
@@ -50,10 +58,10 @@ export const entries = <T>(input: StringMap<T>): Iterable<Entry<T>> => {
         })
 }
 
-export const keys = <T>(input: StringMap<T>): Iterable<string> =>
+export const keys = <T>(input: StringMap<T>|undefined): Iterable<string> =>
     _.map(entries(input), entryKey)
 
-export const values = <T>(input: StringMap<T>): Iterable<T> =>
+export const values = <T>(input: StringMap<T>|undefined): Iterable<T> =>
     _.map(entries(input), entryValue)
 
 export const groupBy = <T>(

@@ -40,6 +40,13 @@ describe("entry", () => {
     })
 })
 
+describe("allKeys", () => {
+    it("undefined", () => {
+        const x = Array.from(_.allKeys(undefined))
+        assert.strictEqual(x.length, 0)
+    })
+})
+
 describe("entries", () => {
     it("array", () => {
         const x: { [name: string]: number } = { 1: 2, 2: 2, 3: 3 }
@@ -50,6 +57,10 @@ describe("entries", () => {
         const x: { [name: string]: number|undefined } = { 1: 2, 2: 2, t: undefined }
         const result = Array.from(_.entries(x))
         assert.deepEqual([_.entry("1", 2), _.entry("2", 2)], result)
+    })
+    it("undefined", () => {
+        const x = Array.from(_.entries(undefined))
+        assert.strictEqual(x.length, 0)
     })
 })
 
