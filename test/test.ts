@@ -83,3 +83,12 @@ describe("isEqual", () => {
         assert.isFalse(_.isEqual({}, { a: 3 }))
     })
 })
+
+describe("merge", () => {
+    it("two", () => {
+        const a = { a: "Hello"}
+        const b = { b: "world!"}
+        const r = _.merge(a, b)
+        assert.deepEqual({ a: "Hello", b: "world!" }, r)
+    })
+})

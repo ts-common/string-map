@@ -76,6 +76,9 @@ export const stringMap = <T>(input: Iterable<Entry<T>>): StringMap<T> =>
 export const map = <S, R>(source: StringMap<S>, f: (v: S, k: string) => R): StringMap<R> =>
     stringMap(_.map(entries(source), ([k, v]) => entry(k, f(v, k))))
 
+export const merge = <T>(a: StringMap<T>, b: StringMap<T>): StringMap<T> =>
+    stringMap(_.concat(entries(a), entries(b)))
+
 // Performs a partial deep comparison between object and source to determine if object contains
 // equivalent property values.
 // See also https://lodash.com/docs/4.17.10#isMatch
