@@ -67,7 +67,7 @@ describe("stringMap", () => {
 describe("map", () => {
     it("map", () => {
         const x = { a: 3, b: 4 }
-        const result = _.map(x, a => [a[0], a[1] * a[1]])
+        const result = _.map(x, a => a * a)
         assert.deepEqual({ a: 9, b: 16 }, result)
     })
 })

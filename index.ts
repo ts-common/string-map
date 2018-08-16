@@ -17,7 +17,7 @@ export const entryValue = <T>(e: Entry<T>): T =>
     e[EntryIndex.Value]
 
 export interface StringMap<T> {
-    readonly [key: string]: T;
+    readonly [key: string]: T|undefined;
 }
 
 export type PartialStringMap<K extends string, V> = {
@@ -26,12 +26,12 @@ export type PartialStringMap<K extends string, V> = {
 
 export interface MutableStringMap<T> {
     // tslint:disable-next-line:readonly-keyword
-    [key: string]: T
+    [key: string]: T|undefined
 }
 
 export type StringMapItem<T> = T extends StringMap<infer I> ? I : never
 
-export const allKeys = <T>(input: StringMap<T|undefined>): Iterable<string> => {
+export const allKeys = <T>(input: StringMap<T>): Iterable<string> => {
     function *iterator() {
         /* tslint:disable-next-line:no-loop-statement */
         for (const key in input) {
@@ -41,7 +41,7 @@ export const allKeys = <T>(input: StringMap<T|undefined>): Iterable<string> => {
     return _.iterable(iterator)
 }
 
-export const entries = <T>(input: StringMap<T|undefined>): Iterable<Entry<T>> => {
+export const entries = <T>(input: StringMap<T>): Iterable<Entry<T>> => {
     return _.filterMap(
         allKeys(input),
         key => {
@@ -53,7 +53,7 @@ export const entries = <T>(input: StringMap<T|undefined>): Iterable<Entry<T>> =>
 export const keys = <T>(input: StringMap<T>): Iterable<string> =>
     _.map(entries(input), entryKey)
 
-export const values = <T>(input: StringMap<T|undefined>): Iterable<T> =>
+export const values = <T>(input: StringMap<T>): Iterable<T> =>
     _.map(entries(input), entryValue)
 
 export const groupBy = <T>(
@@ -73,8 +73,8 @@ export const groupBy = <T>(
 export const stringMap = <T>(input: Iterable<Entry<T>>): StringMap<T> =>
     groupBy(input, v => v)
 
-export const map = <S, R>(source: StringMap<S>, f: (s: Entry<S>) => Entry<R>): StringMap<R> =>
-    stringMap(_.map(entries(source), f))
+export const map = <S, R>(source: StringMap<S>, f: (v: S, k: string) => R): StringMap<R> =>
+    stringMap(_.map(entries(source), ([k, v]) => entry(k, f(v, k))))
 
 // Performs a partial deep comparison between object and source to determine if object contains
 // equivalent property values.
