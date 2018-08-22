@@ -20,13 +20,15 @@ export interface StringMap<T> {
     readonly [key: string]: T|undefined;
 }
 
-export type PartialStringMap<T> = {
-    readonly [k in keyof T & string]: T[k]
+export type PartialStringMap<K extends string, V> = {
+    readonly [k in K]: V
 } & object
 
 export type Values<T> = T[keyof T & string]
 
-export const toStringMap = <T extends PartialStringMap<T>>(v: T): StringMap<Values<T>> => v
+export type AsPartialStringMap<T> = PartialStringMap<keyof T & string, Values<T>>
+
+export const toStringMap = <T extends AsPartialStringMap<T>>(v: T): StringMap<Values<T>> => v
 
 export interface MutableStringMap<T> {
     // tslint:disable-next-line:readonly-keyword
