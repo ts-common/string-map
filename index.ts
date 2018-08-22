@@ -97,3 +97,6 @@ export const isMatch = <O, S>(object: StringMap<O>, source: StringMap<S>): boole
 
 export const isEqual = <A, B>(a: StringMap<A>, b: StringMap<B>): boolean =>
     _.isStrictEqual(a, b) || (isMatch(a, b) && isMatch(b, a))
+
+export const isEmpty = <T>(a: StringMap<T>): boolean =>
+    _.isEmpty(entries(a))

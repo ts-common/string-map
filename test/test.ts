@@ -117,3 +117,14 @@ describe("merge", () => {
         assert.deepEqual({ a: "Hello", b: "world!" }, r)
     })
 })
+
+describe("isEmpty", () => {
+    it("empty", () => {
+        const r = _.isEmpty({})
+        assert.isTrue(r)
+    })
+    it("not empty", () => {
+        const r = _.isEmpty({ a: 45 })
+        assert.isFalse(r)
+    })
+})
