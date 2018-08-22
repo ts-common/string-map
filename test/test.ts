@@ -116,6 +116,17 @@ describe("merge", () => {
         const r = _.merge(a, b)
         assert.deepEqual({ a: "Hello", b: "world!" }, r)
     })
+    it("three", () => {
+        const a = { a: "Hello"}
+        const b = { b: "world!"}
+        const c = { a: "no", c: "X" }
+        const r = _.merge(a, b, c)
+        assert.deepEqual({ a: "Hello", b: "world!", c: "X" }, r)
+    })
+    it("empty", () => {
+        const r = _.merge()
+        assert.deepEqual({}, r)
+    })
 })
 
 describe("isEmpty", () => {

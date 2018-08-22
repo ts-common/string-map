@@ -86,8 +86,9 @@ export const stringMap = <T>(input: Iterable<Entry<T>>): StringMap<T> =>
 export const map = <S, R>(source: StringMap<S>, f: (v: S, k: string) => R): StringMap<R> =>
     stringMap(_.map(entries(source), ([k, v]) => entry(k, f(v, k))))
 
-export const merge = <T>(a: StringMap<T>, b: StringMap<T>): StringMap<T> =>
-    stringMap(_.concat(entries(a), entries(b)))
+// tslint:disable-next-line:readonly-array
+export const merge = <T>(...a: Array<StringMap<T>>): StringMap<T> =>
+    stringMap(_.concat(..._.map(a, entries)))
 
 // Performs a partial deep comparison between object and source to determine if object contains
 // equivalent property values.
