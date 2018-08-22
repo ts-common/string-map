@@ -75,6 +75,14 @@ describe("stringMap", () => {
     })
 })
 
+describe("toStringMap", () => {
+    it("toStringMap", () => {
+        const r = { a: 4, b: "ww" }
+        const v = _.toStringMap(r)
+        assert.strictEqual(r, v)
+    })
+})
+
 describe("map", () => {
     it("map", () => {
         const x = { a: 3, b: 4 }
