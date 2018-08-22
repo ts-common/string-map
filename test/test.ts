@@ -81,6 +81,12 @@ describe("toStringMap", () => {
         const v = _.toStringMap(r)
         assert.strictEqual(r, v)
     })
+    it("optional", () => {
+        interface X { a?: 4 }
+        const r: X = { a: 4 }
+        const v = _.toStringMap(r)
+        assert.strictEqual(r, v)
+    })
 })
 
 describe("map", () => {

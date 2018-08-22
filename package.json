@@ -1,6 +1,6 @@
 {
   "name": "@ts-common/string-map",
-  "version": "0.0.22",
+  "version": "0.0.23",
   "description": "String Map",
   "main": "index.js",
   "scripts": {
