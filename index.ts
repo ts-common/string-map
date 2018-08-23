@@ -87,7 +87,7 @@ export const map = <S, R>(source: StringMap<S>, f: (v: S, k: string) => R): Stri
     stringMap(_.map(entries(source), ([k, v]) => entry(k, f(v, k))))
 
 // tslint:disable-next-line:readonly-array
-export const merge = <T>(...a: Array<StringMap<T>>): StringMap<T> =>
+export const merge = <T>(...a: Array<StringMap<T>|undefined>): StringMap<T> =>
     stringMap(_.concat(..._.map(a, entries)))
 
 // Performs a partial deep comparison between object and source to determine if object contains

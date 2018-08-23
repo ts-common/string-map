@@ -127,6 +127,10 @@ describe("merge", () => {
         const r = _.merge()
         assert.deepEqual({}, r)
     })
+    it("merge undefined", () => {
+        const r = _.merge({ a: "5" }, undefined, { b: "6" })
+        assert.deepEqual({ a: "5", b: "6" }, r)
+    })
 })
 
 describe("isEmpty", () => {
