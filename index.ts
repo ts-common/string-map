@@ -81,7 +81,8 @@ export const groupBy = <T>(
 }
 
 export const stringMap = <T>(input: Iterable<Entry<T>>): StringMap<T> =>
-    groupBy(input, v => v)
+    // tslint:disable-next-line:variable-name
+    groupBy(input, (_a, b) => b)
 
 export const map = <S, R>(source: StringMap<S>, f: (v: S, k: string) => R): StringMap<R> =>
     stringMap(_.map(entries(source), ([k, v]) => entry(k, f(v, k))))

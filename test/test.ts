@@ -71,7 +71,7 @@ describe("stringMap", () => {
     })
     it("stringMap duplicate", () => {
         const result = _.stringMap([["a", 2], ["b", 4], ["a", 3]])
-        assert.deepEqual({ a: 2, b: 4 }, result)
+        assert.deepEqual({ a: 3, b: 4 }, result)
     })
 })
 
@@ -116,12 +116,12 @@ describe("merge", () => {
         const r = _.merge(a, b)
         assert.deepEqual({ a: "Hello", b: "world!" }, r)
     })
-    it("three", () => {
+    it("three with collision", () => {
         const a = { a: "Hello"}
         const b = { b: "world!"}
         const c = { a: "no", c: "X" }
         const r = _.merge(a, b, c)
-        assert.deepEqual({ a: "Hello", b: "world!", c: "X" }, r)
+        assert.deepEqual({ a: "no", b: "world!", c: "X" }, r)
     })
     it("empty", () => {
         const r = _.merge()
