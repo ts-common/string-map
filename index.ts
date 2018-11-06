@@ -33,8 +33,8 @@ export interface MutableStringMap<T> {
 
 export type StringMapItem<T> = T extends StringMap<infer I> ? I : never
 
-export const allKeys = <T>(input: StringMap<T>|undefined|null): Iterable<string> => {
-    function *iterator() {
+export const allKeys = <T>(input: StringMap<T>|undefined|null): Iterable<string> =>
+    _.iterable(function *() {
         // tslint:disable-next-line:no-if-statement
         if (input === undefined || input === null) {
             return
@@ -43,9 +43,7 @@ export const allKeys = <T>(input: StringMap<T>|undefined|null): Iterable<string>
         for (const key in input) {
             yield key
         }
-    }
-    return _.iterable(iterator)
-}
+    })
 
 export const entries = <T>(input: StringMap<T>|undefined|null): Iterable<Entry<T>> => {
     // tslint:disable-next-line:no-if-statement
@@ -57,7 +55,8 @@ export const entries = <T>(input: StringMap<T>|undefined|null): Iterable<Entry<T
         key => {
             const value = input[key]
             return value !== undefined ? entry(key, value) : undefined
-        })
+        }
+    )
 }
 
 export const keys = <T>(input: StringMap<T>|undefined|null): Iterable<string> =>
