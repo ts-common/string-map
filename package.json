@@ -6,7 +6,7 @@
   "scripts": {
     "tslint": "tslint --project tsconfig.json",
     "tsc": "tsc",
-    "test": "tsc && nyc mocha",
+    "test": "tsc && nyc mocha --reporter mocha-junit-reporter",
     "prepack": "npm install && tsc"
   },
   "files": [
@@ -23,9 +23,15 @@
   },
   "nyc": {
     "reporter": [
-      "lcov",
-      "text"
-    ]
+      "html",
+      "text",
+      "cobertura"
+    ],
+    "check-coverage": true,
+    "lines": 100,
+    "statements": 100,
+    "functions": 100,
+    "branches": 100
   },
   "homepage": "https://github.com/ts-common/string-map#readme",
   "devDependencies": {
@@ -33,6 +39,7 @@
     "@types/mocha": "^5.2.5",
     "chai": "^4.2.0",
     "mocha": "^5.2.0",
+    "mocha-junit-reporter": "^1.18.0",
     "nyc": "^13.1.0",
     "tslint": "^5.11.0",
     "tslint-immutable": "^4.9.1",
