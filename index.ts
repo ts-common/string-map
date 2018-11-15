@@ -16,13 +16,11 @@ export const entryKey = <T>(e: Entry<T>): string =>
 export const entryValue = <T>(e: Entry<T>): T =>
     e[EntryIndex.Value]
 
-export interface StringMap<T> {
-    readonly [key: string]: T|undefined;
-}
-
 export type PartialStringMap<K extends string, V> = {
     readonly [k in K]?: V
 }
+
+export type StringMap<T> = PartialStringMap<string, T>
 
 export const toStringMap = <K extends string, V>(v: PartialStringMap<K, V>): StringMap<V> => v
 
@@ -34,27 +32,35 @@ export interface MutableStringMap<T> {
 export type StringMapItem<T> = T extends StringMap<infer I> ? I : never
 
 export const allKeys = <T>(input: StringMap<T>|undefined|null): Iterable<string> =>
+    objectAllKeys<string, T>(input)
+
+export const objectAllKeys = <K extends string, T>(input: PartialStringMap<K, T>|undefined|null): Iterable<K> =>
     _.iterable(function *() {
         // tslint:disable-next-line:no-if-statement
         if (input === undefined || input === null) {
             return
         }
-        /* tslint:disable-next-line:no-loop-statement */
+        // tslint:disable-next-line:no-loop-statement
         for (const key in input) {
             yield key
         }
     })
 
-export const entries = <T>(input: StringMap<T>|undefined|null): Iterable<Entry<T>> => {
+export const entries = <T>(input: StringMap<T>|undefined|null): Iterable<Entry<T>> =>
+    objectEntries<string, T>(input)
+
+export const objectEntries = <K extends string, T>(
+    input: PartialStringMap<K, T>|undefined|null
+): Iterable<Tuple2<K, T>> => {
     // tslint:disable-next-line:no-if-statement
     if (input === undefined || input === null) {
         return []
     }
     return _.filterMap(
-        allKeys(input),
+        objectAllKeys(input),
         key => {
             const value = input[key]
-            return value !== undefined ? entry(key, value) : undefined
+            return value !== undefined ? tuple2(key, value as T) : undefined
         }
     )
 }
