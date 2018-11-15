@@ -20,7 +20,9 @@ export type PartialStringMap<K extends string, V> = {
     readonly [k in K]?: V
 }
 
-export type StringMap<T> = PartialStringMap<string, T>
+export interface StringMap<T> {
+    readonly [k: string]: T | undefined
+}
 
 export const toStringMap = <K extends string, V>(v: PartialStringMap<K, V>): StringMap<V> => v
 
