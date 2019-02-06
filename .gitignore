@@ -62,6 +62,7 @@ typings/
 
 *.js
 *.d.ts
+*.map
 
 test-results.xml
 package-lock.json

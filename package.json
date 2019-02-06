@@ -1,16 +1,20 @@
 {
   "name": "@ts-common/string-map",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "String Map",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "tslint": "tslint --project tsconfig.json",
     "tsc": "tsc",
-    "test": "tsc && nyc mocha --reporter mocha-junit-reporter",
+    "test": "tsc && nyc mocha ./dist/test.js --reporter mocha-junit-reporter",
     "prepack": "npm install && tsc"
   },
   "files": [
-    "index.d.ts"
+    "dist/index.js",
+    "dist/index.d.ts",
+    "dist/index.js.map",
+    "dist/index.d.ts.map",
+    "src/index.ts"
   ],
   "repository": {
     "type": "git",
@@ -31,7 +35,8 @@
     "lines": 100,
     "statements": 100,
     "functions": 100,
-    "branches": 100
+    "branches": 100,
+    "exclude": [ "./dist/test.js" ]
   },
   "homepage": "https://github.com/ts-common/string-map#readme",
   "devDependencies": {
@@ -40,13 +45,13 @@
     "chai": "^4.2.0",
     "mocha": "^5.2.0",
     "mocha-junit-reporter": "^1.18.0",
-    "nyc": "^13.1.0",
+    "nyc": "^13.2.0",
     "tslint": "^5.12.1",
-    "tslint-immutable": "^5.1.0",
-    "typescript": "^3.2.2"
+    "tslint-immutable": "^5.1.2",
+    "typescript": "~3.2.4"
   },
   "dependencies": {
-    "@ts-common/iterator": "^0.1.2",
-    "@ts-common/tuple": "^0.0.5"
+    "@ts-common/iterator": "^0.1.3",
+    "@ts-common/tuple": "^0.0.6"
   }
 }

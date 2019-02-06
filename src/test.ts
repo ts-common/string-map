@@ -1,5 +1,5 @@
 /* tslint:disable:no-expression-statement readonly-keyword */
-import * as _ from "../index"
+import * as _ from "./index"
 import * as i from "@ts-common/iterator"
 import "mocha"
 import { assert } from "chai"
