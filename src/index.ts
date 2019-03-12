@@ -33,11 +33,11 @@ export interface MutableStringMap<T> {
 
 export type StringMapItem<T> = T extends StringMap<infer I> ? I : never
 
-export const allKeys = <T>(input: StringMap<T>|undefined|null): Iterable<string> =>
+export const allKeys = <T>(input: StringMap<T>|undefined|null): _.IterableEx<string> =>
     objectAllKeys<string, T>(input)
 
-export const objectAllKeys = <K extends string, T>(input: PartialStringMap<K, T>|undefined|null): Iterable<K> =>
-    _.iterable(function *() {
+export const objectAllKeys = <K extends string, T>(input: PartialStringMap<K, T>|undefined|null): _.IterableEx<K> =>
+    _.iterable(function *(): _.Iterator<K> {
         // tslint:disable-next-line:no-if-statement
         if (input === undefined || input === null) {
             return
@@ -48,33 +48,31 @@ export const objectAllKeys = <K extends string, T>(input: PartialStringMap<K, T>
         }
     })
 
-export const entries = <T>(input: StringMap<T>|undefined|null): Iterable<Entry<T>> =>
+export const entries = <T>(input: StringMap<T>|undefined|null): _.IterableEx<Entry<T>> =>
     objectEntries<string, T>(input)
 
 export const objectEntries = <K extends string, T>(
     input: PartialStringMap<K, T>|undefined|null
-): Iterable<Tuple2<K, T>> => {
+): _.IterableEx<Tuple2<K, T>> => {
     // tslint:disable-next-line:no-if-statement
     if (input === undefined || input === null) {
-        return []
+        return _.empty()
     }
-    return _.filterMap(
-        objectAllKeys(input),
-        key => {
+    return objectAllKeys(input)
+        .filterMap(key => {
             const value = input[key]
             return value !== undefined ? tuple2(key, value as T) : undefined
-        }
-    )
+        })
 }
 
-export const keys = <T>(input: StringMap<T>|undefined|null): Iterable<string> =>
-    _.map(entries(input), entryKey)
+export const keys = <T>(input: StringMap<T>|undefined|null): _.IterableEx<string> =>
+    entries(input).map(entryKey)
 
-export const values = <T>(input: StringMap<T>|undefined|null): Iterable<T> =>
-    _.map(entries(input), entryValue)
+export const values = <T>(input: StringMap<T>|undefined|null): _.IterableEx<T> =>
+    entries(input).map(entryValue)
 
 export const groupBy = <T>(
-    input: Iterable<Entry<T>>,
+    input: _.Iterable<Entry<T>>,
     reduceFunc: (a: T, b: T) => T
 ): StringMap<T> => {
     /* tslint:disable-next-line:readonly-keyword */
@@ -87,25 +85,25 @@ export const groupBy = <T>(
     return result
 }
 
-export const stringMap = <T>(input: Iterable<Entry<T>>): StringMap<T> =>
+export const stringMap = <T>(input: _.Iterable<Entry<T>>): StringMap<T> =>
     // tslint:disable-next-line:variable-name
     groupBy(input, (_a, b) => b)
 
 export const map = <S, R>(source: StringMap<S>, f: (v: S, k: string) => R): StringMap<R> =>
-    stringMap(_.map(entries(source), ([k, v]) => entry(k, f(v, k))))
+    stringMap(entries(source).map(([k, v]) => entry(k, f(v, k))))
 
 // tslint:disable-next-line:readonly-array
 export const merge = <T>(...a: Array<StringMap<T>|undefined>): StringMap<T> =>
-    stringMap(_.concat(..._.map(a, entries)))
+    stringMap(_.map(a, entries).flatMap(v => v))
 
 // Performs a partial deep comparison between object and source to determine if object contains
 // equivalent property values.
 // See also https://lodash.com/docs/4.17.10#isMatch
 export const isMatch = <O, S>(object: StringMap<O>, source: StringMap<S>): boolean =>
-    _.every(entries(source), ([key, value]) => _.isStrictEqual(object[key], value))
+    entries(source).every(([key, value]) => _.isStrictEqual(object[key], value))
 
 export const isEqual = <A, B>(a: StringMap<A>, b: StringMap<B>): boolean =>
     _.isStrictEqual(a, b) || (isMatch(a, b) && isMatch(b, a))
 
 export const isEmpty = <T>(a: StringMap<T>): boolean =>
-    _.isEmpty(entries(a))
+    entries(a).isEmpty()
