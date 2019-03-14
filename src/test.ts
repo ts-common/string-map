@@ -14,19 +14,19 @@ describe("groupBy", () => {
 
 describe("values", () => {
     it("array", () => {
-        const result = Array.from(_.values({ 1: 2, 2: 2, 3: 3 }))
+        const result = _.values({ 1: 2, 2: 2, 3: 3 }).toArray()
         assert.deepEqual([2, 2, 3], result)
     })
     it("array with undefined", () => {
         const x: { [name: string]: number|undefined } = { 1: 2, 2: 4, t: undefined }
-        const result: ReadonlyArray<number> = Array.from(_.values(x))
+        const result: ReadonlyArray<number> = _.values(x).toArray()
         assert.deepEqual([2, 4], result)
     })
 })
 
 describe("names", () => {
     it("array", () => {
-        const result = Array.from(_.keys({ 1: 2, 2: 2, 3: 3, 4: undefined }))
+        const result = _.keys({ 1: 2, 2: 2, 3: 3, 4: undefined }).toArray()
         assert.deepEqual(["1", "2", "3"], result)
     })
 })
@@ -42,7 +42,7 @@ describe("entry", () => {
 
 describe("allKeys", () => {
     it("undefined", () => {
-        const x = Array.from(_.allKeys(undefined))
+        const x = _.allKeys(undefined).toArray()
         assert.strictEqual(x.length, 0)
     })
 })
@@ -50,16 +50,16 @@ describe("allKeys", () => {
 describe("entries", () => {
     it("array", () => {
         const x: { [name: string]: number } = { 1: 2, 2: 2, 3: 3 }
-        const result = Array.from(_.entries(x))
+        const result = _.entries(x).toArray()
         assert.deepEqual([_.entry("1", 2), _.entry("2", 2), _.entry("3", 3)], result)
     })
     it("array with undefined", () => {
         const x: { [name: string]: number|undefined } = { 1: 2, 2: 2, t: undefined }
-        const result = Array.from(_.entries(x))
+        const result = _.entries(x).toArray()
         assert.deepEqual([_.entry("1", 2), _.entry("2", 2)], result)
     })
     it("undefined", () => {
-        const x = Array.from(_.entries(undefined))
+        const x = _.entries(undefined).toArray()
         assert.strictEqual(x.length, 0)
     })
 })
