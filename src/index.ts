@@ -91,7 +91,6 @@ export const stringMap = <T>(input: _.Iterable<Entry<T>>): StringMap<T> =>
 export const map = <S, R>(source: StringMap<S>, f: (v: S, k: string) => R): StringMap<R> =>
     stringMap(entries(source).map(([k, v]) => [k, f(v, k)] as const))
 
-// tslint:disable-next-line:readonly-array
 export const merge = <T>(...a: readonly (StringMap<T>|undefined)[]): StringMap<T> =>
     stringMap(_.map(a, entries).flatMap(v => v))
 

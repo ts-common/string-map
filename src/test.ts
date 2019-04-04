@@ -19,7 +19,7 @@ describe("values", () => {
     })
     it("array with undefined", () => {
         const x: { [name: string]: number|undefined } = { 1: 2, 2: 4, t: undefined }
-        const result: ReadonlyArray<number> = _.values(x).toArray()
+        const result = _.values(x).toArray()
         assert.deepEqual([2, 4], result)
     })
 })
