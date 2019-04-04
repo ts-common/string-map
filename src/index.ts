@@ -1,14 +1,13 @@
 import * as _ from "@ts-common/iterator"
-import { Tuple2, tuple2 } from "@ts-common/tuple"
 
 export const enum EntryIndex {
     Key = 0,
     Value = 1,
 }
 
-export type Entry<T> = Tuple2<string, T>
+export type Entry<T> = readonly [string, T]
 
-export const entry: <T>(key: string, value: T) => Entry<T> = tuple2
+// export const entry: <T>(key: string, value: T) => Entry<T> = tuple2
 
 export const entryKey = <T>(e: Entry<T>): string =>
     e[EntryIndex.Key]
@@ -53,7 +52,7 @@ export const entries = <T>(input: StringMap<T>|undefined|null): _.IterableEx<Ent
 
 export const objectEntries = <K extends string, T>(
     input: PartialStringMap<K, T>|undefined|null
-): _.IterableEx<Tuple2<K, T>> => {
+): _.IterableEx<readonly [K, T]> => {
     // tslint:disable-next-line:no-if-statement
     if (input === undefined || input === null) {
         return _.empty()
@@ -61,7 +60,7 @@ export const objectEntries = <K extends string, T>(
     return objectAllKeys(input)
         .filterMap(key => {
             const value = input[key]
-            return value !== undefined ? tuple2(key, value as T) : undefined
+            return value !== undefined ? [key, value as T] as const : undefined
         })
 }
 
@@ -90,10 +89,9 @@ export const stringMap = <T>(input: _.Iterable<Entry<T>>): StringMap<T> =>
     groupBy(input, (_a, b) => b)
 
 export const map = <S, R>(source: StringMap<S>, f: (v: S, k: string) => R): StringMap<R> =>
-    stringMap(entries(source).map(([k, v]) => entry(k, f(v, k))))
+    stringMap(entries(source).map(([k, v]) => [k, f(v, k)] as const))
 
-// tslint:disable-next-line:readonly-array
-export const merge = <T>(...a: Array<StringMap<T>|undefined>): StringMap<T> =>
+export const merge = <T>(...a: readonly (StringMap<T>|undefined)[]): StringMap<T> =>
     stringMap(_.map(a, entries).flatMap(v => v))
 
 // Performs a partial deep comparison between object and source to determine if object contains

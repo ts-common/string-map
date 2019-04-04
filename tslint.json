@@ -6,6 +6,7 @@
     ],
     "jsRules": {},
     "rules": {
+        "array-type": false,
         "interface-name": false,
         "forin": false,
         "semicolon": false,
