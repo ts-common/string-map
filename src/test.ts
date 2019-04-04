@@ -6,7 +6,7 @@ import { assert } from "chai"
 
 describe("groupBy", () => {
     it("array", () => {
-        const m = i.map([1, 2, 3, 1, 3, 2, 3, 3], x => _.entry(x.toString(), 1))
+        const m = i.map([1, 2, 3, 1, 3, 2, 3, 3], x => [x.toString(), 1 as number] as const)
         const result = _.groupBy(m, (a, b) => a + b)
         assert.deepEqual({ 1: 2, 2: 2, 3: 4 }, result)
     })
@@ -51,12 +51,12 @@ describe("entries", () => {
     it("array", () => {
         const x: { [name: string]: number } = { 1: 2, 2: 2, 3: 3 }
         const result = _.entries(x).toArray()
-        assert.deepEqual([_.entry("1", 2), _.entry("2", 2), _.entry("3", 3)], result)
+        assert.deepEqual([["1", 2], ["2", 2], ["3", 3]] as const, result)
     })
     it("array with undefined", () => {
         const x: { [name: string]: number|undefined } = { 1: 2, 2: 2, t: undefined }
         const result = _.entries(x).toArray()
-        assert.deepEqual([_.entry("1", 2), _.entry("2", 2)], result)
+        assert.deepEqual([["1", 2], ["2", 2]] as const, result)
     })
     it("undefined", () => {
         const x = _.entries(undefined).toArray()
