@@ -1,9 +1,10 @@
 {
   "name": "@ts-common/string-map",
-  "version": "0.3.0",
+  "version": "1.0.0",
   "description": "String Map",
   "main": "dist/index.js",
   "scripts": {
+    "build": "tsc",
     "tslint": "tslint --project tsconfig.json",
     "tsc": "tsc",
     "test": "tsc && nyc mocha ./dist/test.js --reporter mocha-junit-reporter",
@@ -42,17 +43,21 @@
   },
   "homepage": "https://github.com/ts-common/string-map#readme",
   "devDependencies": {
-    "@types/chai": "^4.1.7",
-    "@types/mocha": "^5.2.6",
+    "@types/chai": "^4.2.7",
+    "@types/mocha": "^5.2.7",
     "chai": "^4.2.0",
-    "mocha": "^6.0.2",
-    "mocha-junit-reporter": "^1.21.0",
-    "nyc": "^13.3.0",
-    "tslint": "^5.15.0",
-    "tslint-immutable": "^5.5.2",
-    "typescript": "^3.4.1"
+    "mocha": "^7.0.0",
+    "mocha-junit-reporter": "^1.23.3",
+    "nyc": "^15.0.0",
+    "tslint": "^6.0.0",
+    "tslint-immutable": "^6.0.1",
+    "typescript": "^3.7.5",
+    "tslib": "^1.10.0"
   },
   "dependencies": {
-    "@ts-common/iterator": "^0.3.0"
+    "@ts-common/iterator": "^1.0.1"
+  },
+  "peerDependencies": {
+    "tslib": "^1.0.0"
   }
 }

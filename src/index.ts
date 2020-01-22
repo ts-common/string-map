@@ -36,7 +36,7 @@ export const allKeys = <T>(input: StringMap<T>|undefined|null): _.IterableEx<str
     objectAllKeys<string, T>(input)
 
 export const objectAllKeys = <K extends string, T>(input: PartialStringMap<K, T>|undefined|null): _.IterableEx<K> =>
-    _.iterable(function *(): _.Iterator<K> {
+    _.iterable(function *(): Iterator<K> {
         // tslint:disable-next-line:no-if-statement
         if (input === undefined || input === null) {
             return
@@ -71,7 +71,7 @@ export const values = <T>(input: StringMap<T>|undefined|null): _.IterableEx<T> =
     entries(input).map(entryValue)
 
 export const groupBy = <T>(
-    input: _.Iterable<Entry<T>>,
+    input: Iterable<Entry<T>>,
     reduceFunc: (a: T, b: T) => T
 ): StringMap<T> => {
     /* tslint:disable-next-line:readonly-keyword */
@@ -84,7 +84,7 @@ export const groupBy = <T>(
     return result
 }
 
-export const stringMap = <T>(input: _.Iterable<Entry<T>>): StringMap<T> =>
+export const stringMap = <T>(input: Iterable<Entry<T>>): StringMap<T> =>
     // tslint:disable-next-line:variable-name
     groupBy(input, (_a, b) => b)
 
