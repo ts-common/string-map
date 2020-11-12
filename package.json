@@ -1,6 +1,6 @@
 {
   "name": "@ts-common/string-map",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "String Map",
   "main": "dist/index.js",
   "scripts": {
@@ -22,7 +22,7 @@
     "url": "git+https://github.com/ts-common/string-map.git"
   },
   "author": "Sergey Shandar",
-  "license": "Apache-2.0",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/ts-common/string-map/issues"
   },
@@ -55,7 +55,7 @@
     "tslib": "^1.10.0"
   },
   "dependencies": {
-    "@ts-common/iterator": "^1.0.1"
+    "@ts-common/iterator": "^1.1.0"
   },
   "peerDependencies": {
     "tslib": "^1.0.0"
